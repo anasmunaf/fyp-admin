@@ -41,7 +41,7 @@ jobs:
         run: npm install -g surge
         
       - name: deploy on surge
-        run: surge ./build slc-admin.surge.sh --token ${{secret.SURGE_TOKEN}}
+        run: surge ./build https://slc-admin.surge.sh/ --token ${{secrets.SURGE_TOKEN}}
         
         
 
