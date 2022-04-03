@@ -126,7 +126,7 @@ export default function SideBar() {
                 style={{ color: "white", textDecoration: "none" }}
                 to='./yearly'
               >
-                Yearlyl
+                Yearly
               </Link>
             </Button>
           </Box>
@@ -162,7 +162,7 @@ export default function SideBar() {
               style={{ color: "black", textDecoration: "none" }}
               to='./yearly'
             >
-              Yearlyl
+              Yearly
             </Link>
           </ListItem>
           <ListItem button>

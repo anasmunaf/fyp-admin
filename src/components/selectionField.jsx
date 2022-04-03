@@ -1,23 +1,39 @@
 /** @format */
 
 import * as React from "react";
+import { useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function SelectionField(props) {
-  const { menu, label } = props;
+  const [value, setValue] = useState();
+  const [name, setName] = useState();
+  // console.log(value);
+  const { menu, label, selects } = props;
+  selects(value);
   return (
-    <div>
+    <div sx={{ m: 1, minWidth: 120 }}>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id={label}>{label}</InputLabel>
-        <Select labelId={label} id={label} label={label} onChange={undefined}>
-          <MenuItem value={""}>
+        <Select
+          required={true}
+          labelId={label}
+          id={label}
+          label={label}
+          name={label}
+          value={value || ""}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setName(e.target.name);
+          }}
+        >
+          <MenuItem>
             <em>None</em>
           </MenuItem>
           {menu.map((item) => (
-            <MenuItem key={item} value={item || ""}>
+            <MenuItem key={item} value={item}>
               {item}
             </MenuItem>
           ))}
