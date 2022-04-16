@@ -13,8 +13,8 @@ const Navbar = () => {
     <React.Fragment>
       <SideBar />
       <Routes>
-        <Route index path='/' element={<Navigate to='/yearly' />} />
-        <Route index path='/yearly' element={<Yearly />} />
+        <Route path='/' element={<Navigate to='/yearly' />} />
+        <Route path='/yearly' element={<Yearly />} />
         <Route path='/yearly/new' element={<NewYear />} />
         <Route path='/topical' element={<Topical />} />
         <Route path='/yearly/:id' element={<UpdateYear />} />
