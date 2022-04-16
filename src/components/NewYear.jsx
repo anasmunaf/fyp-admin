@@ -39,7 +39,11 @@ const NewYear = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+<<<<<<< HEAD
     Http.post("https://slc-backend.herokuapp.com/api/yearly/", formData, {
+=======
+    Http.post("/api/yearly/", formData, {
+>>>>>>> c59a702da971dab0198afcbaabe334d6a668d059
       headers: { "Content-Type": "multipart/form-data" },
     }).then((res) => console.log(res));
   };
