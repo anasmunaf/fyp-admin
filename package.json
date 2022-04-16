@@ -50,5 +50,6 @@
   },
   "devDependencies": {
     "buffer": "^6.0.3"
-  }
+  },
+  "proxy": "https://slc-backend.herokuapp.com/"
 }

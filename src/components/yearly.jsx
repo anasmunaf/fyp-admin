@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 
 async function get() {
-  const yearly = await Http.get("http://localhost:5000/api/yearly/");
+  const yearly = await Http.get("/api/yearly/");
   let rows = [];
   yearly.data.map((arr) => {
     const { _id, subject, year, month, category, paper, pdf } = arr;
@@ -36,8 +36,8 @@ async function get() {
           <DeleteIcon
             style={{ cursor: "pointer", hover: { color: "black" } }}
             onClick={async () =>
-              await Http.delete(`http://localhost:5000/api/yearly/${_id}`).then(
-                () => window.location.reload(),
+              await Http.delete(`/api/yearly/${_id}`).then(() =>
+                window.location.reload(),
               )
             }
             sx={{ color: "red", ml: 4 }}

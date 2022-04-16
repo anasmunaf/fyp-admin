@@ -41,12 +41,12 @@ const UpdateYear = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    Http.put(`http://localhost:5000/api/yearly/${id}`, formData, {
+    Http.put(`/api/yearly/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     }).then((res) => console.log(res));
   };
   const getDataById = async () => {
-    return await Http.get(`http://localhost:5000/api/yearly/${id}`);
+    return await Http.get(`/api/yearly/${id}`);
   };
   console.log(preData);
   return (
