@@ -10,13 +10,9 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 
 async function get() {
-<<<<<<< HEAD
   const yearly = await Http.get(
     "https://slc-backend.herokuapp.com/api/yearly/",
   );
-=======
-  const yearly = await Http.get("/api/yearly/");
->>>>>>> c59a702da971dab0198afcbaabe334d6a668d059
   let rows = [];
   yearly.data.map((arr) => {
     const { _id, subject, year, month, category, paper, pdf } = arr;
@@ -42,15 +38,9 @@ async function get() {
           <DeleteIcon
             style={{ cursor: "pointer", hover: { color: "black" } }}
             onClick={async () =>
-<<<<<<< HEAD
               await Http.delete(
                 `https://slc-backend.herokuapp.com/api/yearly/${_id}`,
               ).then(() => window.location.reload())
-=======
-              await Http.delete(`/api/yearly/${_id}`).then(() =>
-                window.location.reload(),
-              )
->>>>>>> c59a702da971dab0198afcbaabe334d6a668d059
             }
             sx={{ color: "red", ml: 4 }}
           />

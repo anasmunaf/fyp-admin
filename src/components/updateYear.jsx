@@ -41,20 +41,12 @@ const UpdateYear = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-<<<<<<< HEAD
     Http.put(`https://slc-backend.herokuapp.com/api/yearly/${id}`, formData, {
-=======
-    Http.put(`/api/yearly/${id}`, formData, {
->>>>>>> c59a702da971dab0198afcbaabe334d6a668d059
       headers: { "Content-Type": "multipart/form-data" },
     }).then((res) => console.log(res));
   };
   const getDataById = async () => {
-<<<<<<< HEAD
     return await Http.get(`https://slc-backend.herokuapp.com/api/yearly/${id}`);
-=======
-    return await Http.get(`/api/yearly/${id}`);
->>>>>>> c59a702da971dab0198afcbaabe334d6a668d059
   };
   console.log(preData);
   return (
