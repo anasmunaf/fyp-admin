@@ -1,23 +1,19 @@
 /** @format */
+/** @format */
 
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import SelectionField from "./selectionField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FileUploader from "./DnD.tsx";
-// import Grid from "@mui/material/Grid";
 import Http from "./http";
-import axios from "axios";
-const NewYear = () => {
+import { useParams } from "react-router-dom";
+
+const UpdateYear = () => {
   const [options, setOptions] = useState({});
   const [File, setFile] = useState({});
-
-  // let file;
-
-  // const func = () =>
-  //   File.target ? (file = { ...File.target.files[0] }) : null;
-  // // func();
-
+  const [preData, setPreData] = useState({});
+  const { id } = useParams();
   const selection = (name, value) => {
     options[name] = value ? value : null;
   };
@@ -28,6 +24,11 @@ const NewYear = () => {
       };
     };
   }
+
+  useEffect(() => {
+    getDataById().then((res) => setPreData(res));
+  }, []);
+
   let formData = new FormData();
 
   formData.append("subject", options.subject);
@@ -39,11 +40,15 @@ const NewYear = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    Http.post("http://localhost:5000/api/yearly/", formData, {
+
+    Http.put(`http://localhost:5000/api/yearly/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     }).then((res) => console.log(res));
   };
-
+  const getDataById = async () => {
+    return await Http.get(`http://localhost:5000/api/yearly/${id}`);
+  };
+  console.log(preData);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -61,26 +66,31 @@ const NewYear = () => {
             selects={selections(selection)("subject")}
             label={"Subject"}
             menu={["Maths", "Physics", "Chemistry"]}
+            preValue={preData.data?.subject}
           />
           <SelectionField
             selects={selections(selection)("year")}
             label={"Year"}
             menu={["2015", "2016", "2017", "2018", "2019", "2020"]}
+            preValue={preData.data?.year}
           />
           <SelectionField
             selects={selections(selection)("month")}
             label={"Month"}
             menu={["Summer", "Winter"]}
+            preValue={preData.data?.month}
           />
           <SelectionField
             selects={selections(selection)("category")}
             label={"Category"}
             menu={["QS", "MS"]}
+            preValue={preData.data?.category}
           />
           <SelectionField
             selects={selections(selection)("paper")}
             label={"Variant"}
             menu={["P1", "P2"]}
+            preValue={preData.data?.paper}
           />
         </Box>
         <br />
@@ -88,12 +98,14 @@ const NewYear = () => {
           <input type='file' id='pdf' name='pdf' required onChange={setFile} />
         </Button>
         {/* <FileUploader fileData={setFile} /> */}
+        <br />
+        <br />
         <div
           style={{ display: "flex", flexWidth: 1, justifyContent: "center" }}
         >
           <Button
             type='submit'
-            sx={{ p: 2, m: 3 }}
+            sx={{ p: 2, m: 3, width: "200px" }}
             size={"large"}
             variant={"contained"}
           >
@@ -105,7 +117,7 @@ const NewYear = () => {
   );
 };
 
-export default NewYear;
+export default UpdateYear;
 
 {
   /* <Button variant='contained' component='label'>

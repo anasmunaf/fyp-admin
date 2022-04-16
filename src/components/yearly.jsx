@@ -13,7 +13,7 @@ async function get() {
   const yearly = await Http.get("http://localhost:5000/api/yearly/");
   let rows = [];
   yearly.data.map((arr) => {
-    const { subject, year, month, category, paper, pdf } = arr;
+    const { _id, subject, year, month, category, paper, pdf } = arr;
     rows.push({
       subject,
       year,
@@ -30,8 +30,18 @@ async function get() {
       ),
       SettingsIcon: (
         <div>
-          <EditIcon />
-          <DeleteIcon sx={{ color: "red", ml: 4 }} />
+          <Link to={`/yearly/${_id}`}>
+            <EditIcon />
+          </Link>
+          <DeleteIcon
+            style={{ cursor: "pointer", hover: { color: "black" } }}
+            onClick={async () =>
+              await Http.delete(`http://localhost:5000/api/yearly/${_id}`).then(
+                () => window.location.reload(),
+              )
+            }
+            sx={{ color: "red", ml: 4 }}
+          />
         </div>
       ),
     });
