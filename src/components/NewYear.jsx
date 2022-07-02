@@ -1,13 +1,11 @@
 /** @format */
 
-import React, { useState, useRef } from "react";
-import SelectionField from "./selectionField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import FileUploader from "./DnD.tsx";
+import React, { useState } from "react";
 // import Grid from "@mui/material/Grid";
 import Http from "./http";
-import axios from "axios";
+import SelectionField from "./selectionField";
 const NewYear = () => {
   const [options, setOptions] = useState({});
   const [File, setFile] = useState({});
@@ -16,7 +14,7 @@ const NewYear = () => {
 
   const func = () =>
     File.target ? (file = { ...File.target.files[0] }) : null;
-  // func();
+  func();
 
   const selection = (name, value) => {
     options[name] = value ? value : null;
@@ -32,21 +30,23 @@ const NewYear = () => {
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
-    func();
-    console.log(file);
-    Http.post("http://localhost:5000/api/yearly/", {
-      subject: options.subject,
-      year: options.year,
-      month: options.month,
-      category: options.category,
-      paper: options.paper,
-      pdf: File.target.files[0],
+    console.log(File.target.files[0]);
+    const formdata = new FormData();
+    formdata.append("subject", options.subject);
+    formdata.append("year", options.year);
+    formdata.append("month", options.month);
+    formdata.append("category", options.category);
+    formdata.append("paper", options.paper);
+    formdata.append("pdf", File.target.files[0]);
+
+    Http.post("http://localhost:5000/api/yearly/", formdata, {
+      headers: { "Content-Type": "multipart/form-data" },
     }).then((res) => console.log(res));
   };
 
   return (
     <div>
-      <form encType='multipart/form-data' method='post' onSubmit={handleSubmit}>
+      <form encType="multipart/form-data" method="post" onSubmit={handleSubmit}>
         <Box
           sx={{
             display: "flex",
@@ -83,13 +83,13 @@ const NewYear = () => {
             menu={["P1", "P2"]}
           />
         </Box>
-        <Button variant='contained' component='label'>
+        <Button variant="contained" component="label">
           <input
-            type='file'
-            id='file'
-            name='myFile'
+            type="file"
+            id="file"
+            name="myFile"
             required
-            size='400000'
+            size="400000"
             onChange={setFile}
           />
         </Button>{" "}
@@ -98,7 +98,7 @@ const NewYear = () => {
           style={{ display: "flex", flexWidth: 1, justifyContent: "center" }}
         >
           <Button
-            type='submit'
+            type="submit"
             sx={{ p: 2, m: 3 }}
             size={"large"}
             variant={"contained"}
