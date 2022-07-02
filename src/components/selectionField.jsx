@@ -1,17 +1,20 @@
 /** @format */
 
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function SelectionField(props) {
+  const { menu, label, selects, preValue } = props;
   const [value, setValue] = useState();
   const [name, setName] = useState();
-  // console.log(value);
-  const { menu, label, selects } = props;
+
+  useEffect(() => {
+    setValue(preValue);
+  }, [preValue]);
   selects(value);
   return (
     <div sx={{ m: 1, minWidth: 120 }}>
