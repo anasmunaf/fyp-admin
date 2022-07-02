@@ -5,11 +5,15 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import SelectionField from "./selectionField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import FileUploader from "./DnD.tsx";
 import Http from "./http";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
+import { CircularProgress } from "@mui/material";
 
 const UpdateYear = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState({});
   const [File, setFile] = useState({});
   const [preData, setPreData] = useState({});
@@ -40,15 +44,17 @@ const UpdateYear = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     Http.put(`https://slc-backend.herokuapp.com/api/yearly/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      setLoading(false);
+      navigate(-1);
+    });
   };
   const getDataById = async () => {
     return await Http.get(`https://slc-backend.herokuapp.com/api/yearly/${id}`);
   };
-  console.log(preData);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -94,8 +100,8 @@ const UpdateYear = () => {
           />
         </Box>
         <br />
-        <Button fullWidth variant='contained' component='label'>
-          <input type='file' id='pdf' name='pdf' required onChange={setFile} />
+        <Button fullWidth variant="contained" component="label">
+          <input type="file" id="pdf" name="pdf" required onChange={setFile} />
         </Button>
         {/* <FileUploader fileData={setFile} /> */}
         <br />
@@ -103,14 +109,16 @@ const UpdateYear = () => {
         <div
           style={{ display: "flex", flexWidth: 1, justifyContent: "center" }}
         >
-          <Button
-            type='submit'
+          <LoadingButton
+            type="submit"
             sx={{ p: 2, m: 3, width: "200px" }}
             size={"large"}
             variant={"contained"}
+            loading={loading}
+            loadingIndicator={<CircularProgress size={20} />}
           >
             Submit
-          </Button>
+          </LoadingButton>
         </div>
       </form>
     </div>

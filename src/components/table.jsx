@@ -11,6 +11,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,34 +43,45 @@ const useStyles = makeStyles({
 export default function CustomizedTables(props) {
   const { heads, rows } = props;
   const classes = useStyles();
+
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label='customized table'>
-        <TableHead>
-          <TableRow>
-            {heads.map((head) => {
-              return (
-                <StyledTableCell className={classes.TableText} key={head}>
-                  {head}
-                </StyledTableCell>
-              );
-            })}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.subject}>
-              {Object.values(row).map((col, index) => {
+    <>
+      <TableContainer component={Paper}>
+        <Table aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              {heads?.map((head) => {
                 return (
-                  <StyledTableCell className={classes.TableText} key={index}>
-                    {col}
+                  <StyledTableCell className={classes.TableText} key={head}>
+                    {head}
                   </StyledTableCell>
                 );
               })}
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows?.map((row) => (
+              <StyledTableRow key={row.subject}>
+                {Object.values(row).map((col, index) => {
+                  return (
+                    <StyledTableCell className={classes.TableText} key={index}>
+                      {col}
+                    </StyledTableCell>
+                  );
+                })}
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {!rows && (
+        <Box
+          sx={{ display: "flex", justifyContent: "center", marginTop: "50px" }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
+    </>
   );
 }

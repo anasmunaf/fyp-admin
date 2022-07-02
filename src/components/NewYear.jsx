@@ -3,19 +3,17 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
-// import Grid from "@mui/material/Grid";
 import Http from "./http";
 import SelectionField from "./selectionField";
+import { LoadingButton } from "@mui/lab";
+import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 const NewYear = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState({});
   const [File, setFile] = useState({});
-
-  // let file;
-
-  // const func = () =>
-  //   File.target ? (file = { ...File.target.files[0] }) : null;
-  // // func();
-
   const selection = (name, value) => {
     options[name] = value ? value : null;
   };
@@ -36,10 +34,14 @@ const NewYear = () => {
   formData.append("pdf", File.target?.files[0]);
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     Http.post("https://slc-backend.herokuapp.com/api/yearly/", formData, {
       headers: { "Content-Type": "multipart/form-data" },
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      setLoading(false);
+      navigate(-1);
+    });
   };
 
   return (
@@ -88,14 +90,16 @@ const NewYear = () => {
         <div
           style={{ display: "flex", flexWidth: 1, justifyContent: "center" }}
         >
-          <Button
+          <LoadingButton
             type="submit"
-            sx={{ p: 2, m: 3 }}
+            sx={{ p: 2, m: 3, backgroundColor: "" }}
             size={"large"}
             variant={"contained"}
+            loading={loading}
+            loadingIndicator={<CircularProgress size={20} />}
           >
             Submit
-          </Button>
+          </LoadingButton>
         </div>
       </form>
     </div>
