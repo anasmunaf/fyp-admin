@@ -9,13 +9,21 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 
+async function getPdf(id) {
+  await Http.get(`https://slc-backend.herokuapp.com/api/yearly/pdf/${id}`).then(
+    (data) => {
+      window.open(`data:application/pdf;base64,${data?.data?.pdf.buffer}`);
+    }
+  );
+}
+
 async function get() {
   const yearly = await Http.get(
     "https://slc-backend.herokuapp.com/api/yearly/"
   );
   let rows = [];
   yearly.data.map((arr) => {
-    const { _id, subject, year, month, category, paper, pdf } = arr;
+    const { _id, subject, year, month, category, paper } = arr;
     rows.push({
       subject,
       year,
@@ -23,7 +31,12 @@ async function get() {
       category,
       paper,
       pdf: (
-        <Button href={`data:application/pdf;base64,${pdf.buffer}`}>
+        <Button
+          onClick={async (event) => {
+            event.preventDefault();
+            const data = await getPdf(_id);
+          }}
+        >
           Open PDF
         </Button>
       ),
