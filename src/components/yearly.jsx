@@ -9,10 +9,19 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 
+function debugBase64(base64URL) {
+  var win = window.open();
+  win.document.write(
+    '<iframe src="' +
+      base64URL +
+      '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+  );
+}
+
 async function getPdf(id) {
   await Http.get(`https://slc-backend.herokuapp.com/api/yearly/pdf/${id}`).then(
     (data) => {
-      window.open(`data:application/pdf;base64,${data?.data?.pdf.buffer}`);
+      debugBase64(`data:application/pdf;base64,${data?.data?.pdf.buffer}`);
     }
   );
 }
